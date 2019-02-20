@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TextInput } from 'react-native'
+import { View, StyleSheet, Text, TextInput } from 'react-native'
 
 class Calc extends Component {
+    constructor() {
+        super();
+        this.state = {
+            inputText: ""
+        };
+        this.validKeys = [
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "/", "*", "="
+        ]
+    }
+
     handleInput(text){
-        console.log(text)
-        this.setState({
-            text: text
+        this.setState ({
+            inputText: text
         })
     }
 
@@ -14,8 +23,25 @@ class Calc extends Component {
             <View style={{ flex: 1 }}>
                 <TextInput
                     onChangeText={(this.handleInput.bind(this))}
-                    value={"360"}
+                    value={this.state.inputText}
                     style={styles.input} />
+                <View style={{ flex: 1, flexDirection: "column"}}>
+                    { this.validKeys.map((key, i) => {
+                        if (i % 2 != 0) {
+                            return
+                        }
+                        return (
+                            <View style={styles.row}>
+                                <View style={styles.button}>
+                                    <Text style={styles.btnText}>{ this.validKeys[i] }</Text>
+                                </View>
+                                <View style={styles.button}>
+                                    <Text style={styles.btnText}>{ this.validKeys[i+1] }</Text>
+                                </View>
+                            </View>
+                        )
+                    })}
+                </View>
             </View>
         )
     }
@@ -24,12 +50,25 @@ class Calc extends Component {
 const styles = StyleSheet.create({
     input: {
         height: 150, 
-        width: 100 + '%',
-        backgroundColor: '#272727',
-        color: '#fff',
+        width: 100 + "%",
+        backgroundColor: "#272727",
+        color: "#fff",
         fontSize: 48,
-        textAlign: 'right'
+        textAlign: "right"
     },
+    button: {
+        flex: 1,
+        borderWidth: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    row: {
+        flex: 1,
+        flexDirection: "row"
+    }, 
+    btnText: {
+        fontSize: 36
+    }
   });
 
 export default Calc;
