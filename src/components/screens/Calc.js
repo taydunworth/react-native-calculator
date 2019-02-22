@@ -5,7 +5,9 @@ class Calc extends Component {
     constructor() {
         super();
         this.state = {
-            inputText: ""
+            inputText: "",
+            pendingOperation: null,
+            firstOperand: ""
         };
         this.validKeys = [
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "/", "*", "="
@@ -13,9 +15,71 @@ class Calc extends Component {
     }
 
     handleInput(text){
+        // TO DO: don't allow for non-valid keys
         this.setState ({
             inputText: text
         })
+    }
+
+    handleBtnInput(text){
+        if (["+", "-", "*", "/"].indexOf(text)>-1) {
+            this.setState({
+                pendingOperation: text,
+                firstOperand: this.state.inputText,
+                inputText: ""
+            })
+            return;
+        } else if (text ==="=") {
+            this.calculate(text)
+            return
+        }
+        this.setState ({
+            inputText: this.state.inputText + text
+        })
+    }
+
+    calculate() {
+        let result = null
+        switch(this.state.pendingOperation){
+            case "+":
+                result = (Number(this.state.firstOperand) + Number(this.state.inputText));
+                result = result.toString();
+                this.setState({
+                    inputText: result,
+                    pendingOperation: null,
+                    firstOperand: ""
+                })
+                return;
+            case "-":
+                result = (Number(this.state.firstOperand) - Number(this.state.inputText));
+                result = result.toString();
+                this.setState({
+                    inputText: result,
+                    pendingOperation: null,
+                    firstOperand: ""
+                })
+                return;
+            case "*":
+                result = (Number(this.state.firstOperand) * Number(this.state.inputText));
+                result = result.toString();
+                this.setState({
+                    inputText: result,
+                    pendingOperation: null,
+                    firstOperand: ""
+                })
+                return;
+            case "/":
+                result = (Number(this.state.firstOperand) / Number(this.state.inputText));
+                result = result.toString();
+                this.setState({
+                    inputText: result,
+                    pendingOperation: null,
+                    firstOperand: ""
+                })
+                return;
+            default:
+                return;
+        }
     }
 
     render() {
@@ -34,13 +98,13 @@ class Calc extends Component {
                             <View style={styles.row}>
                                 <TouchableOpacity
                                     style={styles.button}
-                                    onPress={this.handleInput.bind(this, this.validKeys[i])}
+                                    onPress={this.handleBtnInput.bind(this, this.validKeys[i])}
                                 >
                                     <Text style={styles.btnText}>{ this.validKeys[i] }</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.button}
-                                    onPress={this.handleInput.bind(this, this.validKeys[i+1])}
+                                    onPress={this.handleBtnInput.bind(this, this.validKeys[i+1])}
                                 >
                                     <Text style={styles.btnText}>{ this.validKeys[i+1] }</Text>
                                 </TouchableOpacity>
