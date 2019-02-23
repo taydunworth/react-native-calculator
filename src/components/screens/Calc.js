@@ -44,48 +44,30 @@ class Calc extends Component {
     }
 
     calculate() {
-        let result = null
-        switch(this.state.pendingOperation){
-            case "+":
-                result = (Number(this.state.firstOperand) + Number(this.state.inputText));
-                result = result.toString();
-                this.setState({
-                    inputText: result,
-                    pendingOperation: null,
-                    firstOperand: ""
-                })
-                return;
-            case "-":
-                result = (Number(this.state.firstOperand) - Number(this.state.inputText));
-                result = result.toString();
-                this.setState({
-                    inputText: result,
-                    pendingOperation: null,
-                    firstOperand: ""
-                })
-                return;
-            case "*":
-                result = (Number(this.state.firstOperand) * Number(this.state.inputText));
-                result = result.toString();
-                this.setState({
-                    inputText: result,
-                    pendingOperation: null,
-                    firstOperand: ""
-                })
-                return;
-            case "/":
-                result = (Number(this.state.firstOperand) / Number(this.state.inputText));
-                result = result.toString();
-                this.setState({
-                    inputText: result,
-                    pendingOperation: null,
-                    firstOperand: ""
-                })
-                return;
-            default:
-                return;
+        let result = null;
+        switch (this.state.pendingOperation) {
+          case "+":
+            result = Number(this.state.firstOperand) + Number(this.state.inputText);
+            break;
+          case "-":
+            result = Number(this.state.firstOperand) - Number(this.state.inputText);
+            break;
+          case "*":
+            result = Number(this.state.firstOperand) * Number(this.state.inputText);
+            break;
+          case "/":
+            result = Number(this.state.firstOperand) / Number(this.state.inputText);
+            break;
+          default:
+            return;
         }
-    }
+        result = result.toString();
+        this.setState({
+          inputText: result,
+          pendingOperation: null,
+          firstOperand: ""
+        });
+      }
 
     render() {
         return (
